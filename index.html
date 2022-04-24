@@ -1,244 +1,365 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-</head>
-<body onload="getSteam()">
-    <div id="showScroll" class="container">
-        <div class="receipt">
-            <h1 class="logo">Lost Ark</h1>
-            <div class="address" id="hours">
-                Loading Karl's addiction
-            </div>
-            <div class="transactionDetails">
-                Helped by: CCB
-            </div>
-            <br>
-            <div class="centerItem bold">
-            If you are struggling with compulsive gaming 
-            , leave your contact info at 970-364-3497 and a CGAA member will call you back
-            </div>
-            <div class="transactionDetails">
-                <div class="detail">1</div>
 
-                <div class="detail">Lost Ark Bikini Skins</div>
-                <div class="detail">99.99</div>
-            </div>
-            <div class="survey bold">
-                <p>Survey ID #</p>
-                <p class="surveyID">6588 4755 3256 544 21</p>
-            </div>
-            <div class="paymentDetails bold">
-                <div class="detail">TOTAL</div>
-                <div class="detail">99.99</div>
-            </div>
-            <div class="paymentDetails">
-                <div class="detail">CHARGE</div>
-                <div class="detail">99.99</div>
-            </div>
-            <div class="paymentDetails">
-                <div class="detail">************4023</div>
-                <div class="detail">CH</div>
-            </div>
-            <div class="creditDetails">
-                <p>VISA CREDIT &nbsp;&nbsp;&nbsp;&nbsp; ****************</p>
-                <p>approved# 09773B</p>
-                <p>ref# 013589</p>
-                <p>tran type: SALE</p>
-                <p>AID: 30000000090755</p>
-                <p>TC: B7A2A4044AEE380A4</p>
-                <p>terminal: 69010003</p>
-                <p>no signature required</p>
-                <p>CVM: 1e0300</p>
-                <p>TMR(95): 0080081111</p>
-                <p>TS(9B): E900</p>
-            </div>
-    
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+
+<body onload="getSteam()">
+  <div id="showScroll" class="container">
+    <div class="receipt">
+      <h1 class="logo">Karl's Lost Ark Stats</h1>
+      <div class="address" id="hours">
+        Loading Karl's addiction
+      </div>
+
+      <div>
+        <a href="https://store.steampowered.com/app/1599340/Lost_Ark/">Get addicted today !</a>
+        <br />      <br>
+        <br>
+      </div>
+      <br>
+      <a href="https://steamcommunity.com/profiles/76561197961479268">
+      <div class="playerAvatar profile_header_size offline" data-miniprofile="1213540">
+        <div class="playerAvatarAutoSizeInner">
+          <div class="profile_avatar_frame">
+            <img
+              src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/items/322330/46461aaea39b18a4a3da2e6d3cf253006f2d6193.png">
+          </div>
+          <img src="https://avatars.cloudflare.steamstatic.com/857fd2b202a5f1701ad8393946dd21c26d8bec05_full.jpg">
         </div>
+      </div>
+    </a>
     </div>
+  </div>
 </body>
+
 </html>
 
 <script>
-function getSteam(){
-    console.log(axios)
-    axios.get("https://beta.decapi.me/steam/hours?id=76561197961479268&appid=1599340",{recent:true}).then(x=>{
-        let number = Number.parseInt(x.data.replace("hours","")/24)
-        let monthDecimal =  number/30 - Math.floor(number/30)
-        let text =[
-            (number/30).toFixed(0), "Months\n",
-            (number%30 +(monthDecimal*30)).toFixed(0) , "Days\n"
-        ].join(' ')
+  function getFullTime(sec) {
+    sec = Number.parseInt(sec.replace('hours', '')) * 3600
+    let time = ssTohhmmss(sec)
 
-        console.log(monthDecimal)
-        document.getElementById("hours").innerHTML = text;  
-        
+    time += "<br/>Daily Average "
+
+    var date1 = new Date('08/02/2022');
+    var date2 = new Date();
+    var difference = date1.getTime() - date2.getTime();
+    var days = Math.ceil(difference / (1000 * 3600 * 24));
+    console.log(sec)
+    console.log(Math.floor(sec / 3600) / days)
+    time += [Math.floor(sec / 3600) / days, ' h'].join('')
+    return time
+  }
+
+  function ssTohhmmss(s) {
+    var sec_num = parseInt(s, 10)
+    var hours = Math.floor(sec_num / 3600)
+    var minutes = Math.floor(sec_num / 60) % 60
+    var seconds = sec_num % 60
+
+    return [hours, minutes, seconds]
+      .map(v => v < 10 ? "0" + v : v)
+      .filter((v, i) => v !== "00" || i > 0)
+      .join(":")
+  }
+
+  function getSteam() {
+    axios.get("https://beta.decapi.me/steam/hours?id=76561197961479268&appid=1599340", { recent: true }).then(x => {
+      document.getElementById("hours").innerHTML = getFullTime(x.data);
     })
-}
+  }
 </script>
 
 
 <style>
-    * {
-  margin: 0;
-  box-sizing: border-box;
-  font-family: "VT323", monospace;
-  color: #1f1f1f;
-}
+  .playerAvatar.profile_header_size .playerAvatarAutoSizeInner .profile_avatar_frame {}
 
-.bold {
-  font-weight: bold;
-}
+  .playerAvatar .profile_avatar_frame {
+    position: absolute;
+    width: 285px;
+    height: 285px;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  user agent stylesheet div {
+    display: block;
+  }
+
+  .profile_header_content {
+    position: relative;
+    padding-top: 8px;
+    padding-right: 8px;
+    color: #898989;
+    font-size: 13px;
+  }
+
+  body.DarkModeTheme {
+    --gradient-right: rgba(49, 49, 49, 0.233);
+    --gradient-left: rgba(51, 51, 51, 0.37);
+    --gradient-background: rgba(24, 24, 24, 0.93);
+    --gradient-background-right: rgba(34, 34, 34, 0);
+    --gradient-background-left: rgba(32, 32, 32, 0.13);
+    --color-showcase-header: rgba(0, 0, 0, 0.5);
+    --gradient-showcase-header-left: rgba(0, 0, 0, 0.5);
+    --btn-background: rgba(0, 0, 0, 0.5);
+    --btn-background-hover: rgba(40, 40, 40, 1);
+    --btn-outline: rgb(80, 80, 80);
+  }
+
+  body,
+  body.shared_common_v6_2Lxgd {
+    color: #969696;
+    font-family: "Motiva Sans", Arial, Helvetica, sans-serif;
+  }
+
+  body {
+    background: linear-gradient(180deg, #262D33 -3.38%, #1D1E20 78.58%);
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: auto 100%;
+    font-family: "Motiva Sans", Arial, Helvetica, sans-serif;
+  }
+
+  body,
+  textarea {
+    font-family: Arial, Helvetica, Verdana, sans-serif;
+  }
+
+  body {
+    background: #1b2838;
+    text-align: left;
+    color: #8F98A0;
+    font-size: 14px;
+    margin: 0;
+    padding: 0;
+  }
+
+  .playerAvatar.profile_header_size .playerAvatarAutoSizeInner .profile_avatar_frame>img {
+    transform: scale(1.22);
+  }
+
+  .playerAvatar.profile_header_size .playerAvatarAutoSizeInner img {
+    background: none;
+    filter: none;
+    display: block;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .playerAvatar .profile_avatar_frame>img {
+    transform: scale(1.23);
+    width: 32px;
+    height: 32px;
+    background: none;
+  }
+
+  .playerAvatar.offline img,
+  .friend_status_offline .friend_block_avatar img,
+  .appHubIconHolder.offline img,
+  .avatar_block_status_offline img {
+    background: -webkit-linear-gradient(top, #515151 5%, #474747 95%);
+    background: linear-gradient(to bottom, #515151 5%, #474747 95%);
+  }
+
+  .playerAvatar img,
+  .friend_block_holder .friend_block_avatar img,
+  .friend_activity .friend_block_avatar img {
+    width: 32px;
+    height: 32px;
+    padding: 1px;
+    border-radius: 0;
+    border: none;
+  }
+
+  img {
+    -webkit-user-drag: none;
+  }
+
+  img {
+    border: none;
+  }
+
+  * {
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "VT323", monospace;
+    color: #1f1f1f;
+  }
+
+  .bold {
+    font-weight: bold;
+  }
 
 
-.receipt {
-  margin-top: 10vh;  
-  width: 300px;
-  height: 100%;
-  background: #fff;
-  margin: 0 auto;
-  box-shadow: 5px 5px 19px #ccc;
-  padding: 10px;
-}
+  .receipt {
+    margin-top: 10vh;
+    width: 300px;
+    height: 100%;
+    background: #fff;
+    margin: 0 auto;
+    box-shadow: 5px 5px 19px #ccc;
+    padding: 10px;
+  }
 
-.logo {
-  text-align: center;
-  padding: 20px;
-}
+  .logo {
+    text-align: center;
+    padding: 20px;
+  }
 
-.barcode {
-  font-family: "Libre Barcode 128", cursive;
-  font-size: 42px;
-  text-align: center;
-}
+  .barcode {
+    font-family: "Libre Barcode 128", cursive;
+    font-size: 42px;
+    text-align: center;
+  }
 
-.address {
-  text-align: center;
-  margin-bottom: 10px;
-}
+  .address {
+    text-align: center;
+    margin-bottom: 10px;
+  }
 
-.transactionDetails {
-  display: flex;
-  justify-content: space-between;
-  margin: 0 10px 10px;
-}
-.transactionDetails .detail {
-  text-transform: uppercase;
-}
+  .transactionDetails {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 10px 10px;
+  }
 
-.centerItem {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 8px;
-}
+  .transactionDetails .detail {
+    text-transform: uppercase;
+  }
 
-.survey {
-  text-align: center;
-  margin-bottom: 12px;
-}
-.survey .surveyID {
-  font-size: 20px;
-}
+  .centerItem {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 8px;
+  }
 
-.paymentDetails {
-  display: flex;
-  justify-content: space-between;
-  margin: 0 auto;
-  width: 150px;
-}
+  .survey {
+    text-align: center;
+    margin-bottom: 12px;
+  }
 
-.creditDetails {
-  margin: 10px auto;
-  width: 230px;
-  font-size: 14px;
-  text-transform: uppercase;
-}
+  .survey .surveyID {
+    font-size: 20px;
+  }
 
-.receiptBarcode {
-  margin: 10px 0;
-  text-align: center;
-}
+  .paymentDetails {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto;
+    width: 150px;
+  }
 
-.returnPolicy {
-  margin: 10px 20px;
-  width: 220px;
-  display: flex;
-  justify-content: space-between;
-}
+  .creditDetails {
+    margin: 10px auto;
+    width: 230px;
+    font-size: 14px;
+    text-transform: uppercase;
+  }
 
-.coupons {
-  margin-top: 20px;
-}
+  .receiptBarcode {
+    margin: 10px 0;
+    text-align: center;
+  }
 
-.tripSummary {
-  margin: auto;
-  width: 255px;
-}
-.tripSummary .item {
-  display: flex;
-  justify-content: space-between;
-  margin: auto;
-  width: 220px;
-}
+  .returnPolicy {
+    margin: 10px 20px;
+    width: 220px;
+    display: flex;
+    justify-content: space-between;
+  }
 
-.feedback {
-  margin: 20px auto;
-}
-.feedback h3.clickBait {
-  font-size: 30px;
-  font-weight: bold;
-  text-align: center;
-  margin: 10px 0;
-}
-.feedback h4.web {
-  font-size: 20px;
-  font-weight: bold;
-  text-align: center;
-  margin: 10px 0;
-}
-.feedback .break {
-  text-align: center;
-  font-size: 18px;
-  font-weight: bold;
-  margin: 10px 0;
-}
+  .coupons {
+    margin-top: 20px;
+  }
 
-.couponContainer {
-  border-top: 1px dashed #1f1f1f;
-  margin-bottom: 20px;
-}
-.couponContainer .discount {
-  font-size: 35px;
-  text-align: center;
-  margin-bottom: 10px;
-}
-.couponContainer .discountDetails {
-  font-size: 20px;
-  text-align: center;
-  margin-bottom: 15px;
-}
-.couponContainer .barcode {
-  margin: 10px 0 0;
-}
-.couponContainer .legal {
-  font-size: 12px;
-  margin-bottom: 12px;
-}
-.couponContainer .barcodeID {
-  margin-bottom: 8px;
-}
-.couponContainer .expiration {
-  display: flex;
-  justify-content: space-between;
-  margin: 10px;
-}
-.couponContainer .couponBottom {
-  font-size: 13px;
-  text-align: center;
-}
+  .tripSummary {
+    margin: auto;
+    width: 255px;
+  }
 
+  .tripSummary .item {
+    display: flex;
+    justify-content: space-between;
+    margin: auto;
+    width: 220px;
+  }
+
+  .feedback {
+    margin: 20px auto;
+  }
+
+  .feedback h3.clickBait {
+    font-size: 30px;
+    font-weight: bold;
+    text-align: center;
+    margin: 10px 0;
+  }
+
+  .feedback h4.web {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    margin: 10px 0;
+  }
+
+  .feedback .break {
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    margin: 10px 0;
+  }
+
+  .couponContainer {
+    border-top: 1px dashed #1f1f1f;
+    margin-bottom: 20px;
+  }
+
+  .couponContainer .discount {
+    font-size: 35px;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  .couponContainer .discountDetails {
+    font-size: 20px;
+    text-align: center;
+    margin-bottom: 15px;
+  }
+
+  .couponContainer .barcode {
+    margin: 10px 0 0;
+  }
+
+  .couponContainer .legal {
+    font-size: 12px;
+    margin-bottom: 12px;
+  }
+
+  .couponContainer .barcodeID {
+    margin-bottom: 8px;
+  }
+
+  .couponContainer .expiration {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px;
+  }
+
+  .couponContainer .couponBottom {
+    font-size: 13px;
+    text-align: center;
+  }
+
+  img {
+    width: 250px;
+    height: auto;
+  }
 </style>

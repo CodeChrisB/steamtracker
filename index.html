@@ -43,17 +43,19 @@
 <script>
   function getFullTime(sec) {
     sec = Number.parseInt(sec.replace('hours', '')) * 3600
-    let time = ssTohhmmss(sec)
+    let time = ssTohhmmss(sec) +" hours wasted."
 
-    time += "<br/>Daily Average "
 
-    var date1 = new Date('08/02/2022');
+    var date1 = new Date('02/08/2022');
     var date2 = new Date();
-    var difference = date1.getTime() - date2.getTime();
+    var difference = date2.getTime()-date1.getTime();
     var days = Math.ceil(difference / (1000 * 3600 * 24));
     console.log(sec)
     console.log(Math.floor(sec / 3600) / days)
-    time += [Math.floor(sec / 3600) / days, ' h'].join('')
+
+    time+="<br/>Days since release : " +days +"\n"
+    time += "<br/>Daily Average "
+    time += [((Math.floor(sec / 3600))/ days).toFixed(2), ' h'].join('')
     return time
   }
 

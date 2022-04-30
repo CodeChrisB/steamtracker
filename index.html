@@ -82,10 +82,7 @@
       .join(":")
   }
 
-  function getSteam() {
-    document.getElementById("hours").innerHTML = getFullTime("829.1 hours")
-    return;
-    
+  function getSteam() {    
     axios.get("https://beta.decapi.me/steam/hours?id=76561197961479268&appid=1599340", { recent: true }).then(x => {
       console.log(x)
       document.getElementById("hours").innerHTML = getFullTime(x.data);

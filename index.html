@@ -55,7 +55,18 @@
 
     time+="<br/>Days since release : " +days +"\n"
     time += "<br/>Daily Average "
-    time += [((Math.floor(sec / 3600))/ days).toFixed(2), ' h'].join('')
+    let dailyAverage = ((Math.floor(sec / 3600))/ days)
+
+    time += [dailyAverage.toFixed(2), ' h'].join('')
+
+    let hours = Number.parseFloat(ssTohhmmss(sec).split(':')[0])
+    time+="<br/>Days without playing  to reach..<br/>"
+    var i= 23
+    for(i;i>0;i--){
+      if(dailyAverage>i)
+        time+=["<br/>..", i," hours daily average : ",Math.ceil(((hours-days*i)/i)).toFixed(0).toString(),' day(s)'].join('')
+    }
+    
     return time
   }
 
@@ -72,7 +83,11 @@
   }
 
   function getSteam() {
+    document.getElementById("hours").innerHTML = getFullTime("829.1 hours")
+    return;
+    
     axios.get("https://beta.decapi.me/steam/hours?id=76561197961479268&appid=1599340", { recent: true }).then(x => {
+      console.log(x)
       document.getElementById("hours").innerHTML = getFullTime(x.data);
     })
   }

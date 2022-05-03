@@ -12,6 +12,9 @@
 <body onload="getSteam()">
   <div id="showScroll" class="container">
     <div class="receipt">
+      DISCLAIMER
+      These are not my playing Stats !!!
+      I DO NOT PLAY SO MUCH.
       <h1 class="logo">Karl's Lost Ark Stats</h1>
       <div class="address" id="hours">
         Loading Karl's addiction
@@ -62,6 +65,7 @@
     let hours = Number.parseFloat(ssTohhmmss(sec).split(':')[0])
     time+="<br/>Days without playing  to reach..<br/>"
     var i= 23
+
     for(i;i>0;i--){
       if(dailyAverage>i)
         time+=["<br/>..", i," hours daily average : ",Math.ceil(((hours-days*i)/i)).toFixed(0).toString(),' day(s)'].join('')
